@@ -1,14 +1,21 @@
 package ru.stakhovpv.notes;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.stakhovpv.notes.domain.Note;
+import ru.stakhovpv.notes.repos.NoteRepository;
 
 import java.util.Map;
 
 @Controller
 public class GreetingController {
+
+    @Autowired
+    private NoteRepository noteRepository;
 
     @GetMapping("/greeting")
     public String greeting(
@@ -17,6 +24,21 @@ public class GreetingController {
     ) {
         model.put("name", name);
         return "greeting";
+    }
+
+    @GetMapping
+    public String main(
+            Map<String, Object> model
+    ) {
+        Iterable<Note> notes = noteRepository.findAll();
+        model.put("notes",notes);
+        return "main";
+    }
+
+    @PostMapping
+    public void add(@RequestParam String name, @RequestParam String note, Map<String, Object> model) {
+        Note newNote = new Note(name,note);
+        noteRepository.save(newNote);
     }
 
 }
