@@ -3,6 +3,8 @@ package ru.stakhovpv.notes.repos;
 import org.springframework.data.repository.CrudRepository;
 import ru.stakhovpv.notes.domain.Note;
 
-public interface NoteRepository extends CrudRepository<Note,Integer> {
+import java.util.List;
 
+public interface NoteRepository extends CrudRepository<Note,Integer> {
+    List<Note> findByNameContainingOrTextContaining(String name, String text);
 }

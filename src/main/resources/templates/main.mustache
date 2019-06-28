@@ -2,12 +2,16 @@
 <body>
     <div>
         <form method="post">
-            <input type="text" name="name" placeholder="Enter name of note:"/>
+            <input type="text" name="name" placeholder="Enter name"/>
             <input type="text" name="note" placeholder="Enter note"/>
             <button type="submit">Add</button>
         </form>
     </div>
     <div>Notes list</div>
+    <form method="post" action="filter">
+        <input type="text" name="text" placeholder="Text to find"/>
+        <button type="submit">Find</button>
+    </form>
     {{#notes}}
     <div>
         <b>{{id}}</b>
