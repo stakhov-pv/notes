@@ -37,7 +37,6 @@ public class MainController {
 
     @PostMapping("filter")
     public String filter(@RequestParam String text, Map<String, Object> model) {
-        //Iterable<Note> findNotes = noteRepository.findByNameContainingOrTextContaining(text,text);
         Iterable<Note> findNotes = noteRepository.findByNameIgnoreCaseContainingOrTextIgnoreCaseContaining(text,text);
         model.put("notes",findNotes);
         model.put("foundBy",text);
