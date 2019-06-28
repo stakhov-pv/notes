@@ -35,7 +35,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("add")
     public String add(@RequestParam String name, @RequestParam String note, Map<String, Object> model) {
         Note newNote = new Note(name,note);
         noteRepository.save(newNote);
@@ -47,7 +47,8 @@ public class GreetingController {
 
     @PostMapping("filter")
     public String filter(@RequestParam String text, Map<String, Object> model) {
-        Iterable<Note> findNotes = noteRepository.findByNameContainingOrTextContaining(text,text);
+        //Iterable<Note> findNotes = noteRepository.findByNameContainingOrTextContaining(text,text);
+        Iterable<Note> findNotes = noteRepository.findByNameIgnoreCaseContainingOrTextIgnoreCaseContaining(text,text);
         model.put("notes",findNotes);
         model.put("foundBy",text);
         return "main";
