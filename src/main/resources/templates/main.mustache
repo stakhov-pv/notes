@@ -1,5 +1,6 @@
 <html>
 <body>
+    <div>Create Note</div>
     <div>
         <form method="post">
             <input type="text" name="name" placeholder="Enter name"/>
@@ -9,9 +10,14 @@
     </div>
     <div>Notes list</div>
     <form method="post" action="filter">
-        <input type="text" name="text" placeholder="Text to find"/>
+        <input type="text" name="text" placeholder="Text to find" {{#foundBy}}value="{{foundBy}}"{{/foundBy}}/>
         <button type="submit">Find</button>
     </form>
+    {{#foundBy}}
+    <div>
+        Found by '{{foundBy}}'
+    </div>
+    {{/foundBy}}
     {{#notes}}
     <div>
         <b>{{id}}</b>

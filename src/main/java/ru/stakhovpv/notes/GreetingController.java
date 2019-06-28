@@ -49,6 +49,7 @@ public class GreetingController {
     public String filter(@RequestParam String text, Map<String, Object> model) {
         Iterable<Note> findNotes = noteRepository.findByNameContainingOrTextContaining(text,text);
         model.put("notes",findNotes);
+        model.put("foundBy",text);
         return "main";
     }
 
