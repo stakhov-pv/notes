@@ -1,0 +1,15 @@
+<html>
+<body>
+    <div><a href="/"><- back</a></div>
+    <div></div>
+    <div>Edit Note</div>
+    <div>
+        <form method="post" action="update">
+            <div><input type="hidden" name="id" value="{{id}}"</div>
+            <div><input type="text" name="name" placeholder="Enter name" value="{{name}}"/></div>
+            <div><textarea name="note" placeholder="Enter note"/>{{text}}</textarea></div>
+            <div><button type="submit">Save</button></div>
+        </form>
+    </div>
+</body>
+</html>

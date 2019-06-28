@@ -9,6 +9,7 @@ import ru.stakhovpv.notes.domain.Note;
 import ru.stakhovpv.notes.repos.NoteRepository;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -41,6 +42,19 @@ public class MainController {
         model.put("notes",findNotes);
         model.put("foundBy",text);
         return "main";
+    }
+
+    @GetMapping("edit")
+    public String edit(@RequestParam Integer id, Map<String, Object> model) {
+        Optional<Note> result = noteRepository.findById(id);
+        if (result.isPresent()) {
+            Note note = result.get();
+            model.put("id", note.getId());
+            model.put("name", note.getName());
+            model.put("text", note.getText());
+            return "edit";
+        } else return "main"; //TODO: error
+
     }
 
 }
