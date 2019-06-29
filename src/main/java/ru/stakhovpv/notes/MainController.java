@@ -31,9 +31,7 @@ public class MainController {
         Note newNote = new Note(name,note);
         noteRepository.save(newNote);
 
-        Iterable<Note> notes = noteRepository.findAll();
-        model.put("notes",notes);
-        return "main";
+        return main(model);
     }
 
     @PostMapping("filter")
@@ -46,15 +44,28 @@ public class MainController {
 
     @GetMapping("edit")
     public String edit(@RequestParam Integer id, Map<String, Object> model) {
-        Optional<Note> result = noteRepository.findById(id);
-        if (result.isPresent()) {
-            Note note = result.get();
+        Optional<Note> checkNote = noteRepository.findById(id);
+        if (checkNote.isPresent()) {
+            Note note = checkNote.get();
             model.put("id", note.getId());
             model.put("name", note.getName());
             model.put("text", note.getText());
             return "edit";
         } else return "main"; //TODO: error
+    }
 
+    @PostMapping("update")
+    public String update(@RequestParam Integer id, String updatedName, String updatedNote, Map<String, Object> model) {
+        Optional<Note> checkNote = noteRepository.findById(id);
+        if (checkNote.isPresent()) {
+            Note noteToUpdate = checkNote.get();
+            noteToUpdate.setName(updatedName);
+            noteToUpdate.setText(updatedNote);
+            noteRepository.save(noteToUpdate);
+            return main(model);
+        } else {
+           return "main"; //TODO: error
+        }
     }
 
 }
