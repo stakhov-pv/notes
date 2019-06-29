@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 @Entity
 public class Note {
+    private final static String EMPTY_NOTE_NAME = "Empty note";
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
@@ -43,5 +45,11 @@ public class Note {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getNameOrText() {
+        if (name!=null && name.trim().length()>0) return name;
+        else if (text!=null && text.trim().length()>0) return text;
+        return EMPTY_NOTE_NAME;
     }
 }

@@ -4,7 +4,7 @@
     <div>
         <form method="post" action="add">
             <div><input type="text" name="name" placeholder="Enter name"/></div>
-            <div><textarea name="note" placeholder="Enter note"/></textarea></div>
+            <div><textarea name="note" placeholder="Enter note"></textarea></div>
             <div><button type="submit">Add</button></div>
         </form>
     </div>
@@ -22,7 +22,7 @@
     <div>
         <a href="edit?id={{id}}">
             <b>{{id}}</b>
-            <span>{{name}}<span>
+            <span>{{nameOrText}}</span>
         </a>
     </div>
     {{/notes}}
