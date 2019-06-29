@@ -13,45 +13,61 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
+    private static final String REQUEST_ADD = "add";
+    private static final String REQUEST_FILTER = "filter";
+    private static final String REQUEST_EDIT = "edit";
+
+    private static final String KEY_NOTES = "notes";
+    private static final String KEY_FOUNDBY = "foundBy";
+    private static final String KEY_ID = "id";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_TEXT = "text";
+    private static final String KEY_ERROR_MESSAGE = "message";
+
+    private static final String TEMPLATE_MAIN = "main";
+    private static final String TEMPLATE_EDIT = "edit";
+    private static final String TEMPLATE_ERROR = "error";
+
+    private static final String ERROR_MESSAGE_INVALID_UPDATE_REQUEST_NOTE_NOT_FOUND = "Invalid update request: Note not found.";
+    private static final String ERROR_MESSAGE_INVALID_EDIT_REQUEST_NOTE_NOT_FOUND = "Invalid edit request: Note not found.";
 
     @Autowired
     private NoteRepository noteRepository;
 
     @GetMapping
-    public String main(
-            Map<String, Object> model
-    ) {
+    public String main(Map<String, Object> model) {
         Iterable<Note> notes = noteRepository.findAll();
-        model.put("notes",notes);
-        return "main";
+        model.put(KEY_NOTES,notes);
+        return TEMPLATE_MAIN;
     }
 
-    @PostMapping("add")
+    @PostMapping(REQUEST_ADD)
     public String add(@RequestParam String name, @RequestParam String note, Map<String, Object> model) {
         Note newNote = new Note(name,note);
         noteRepository.save(newNote);
-
         return main(model);
     }
 
-    @PostMapping("filter")
+    @PostMapping(REQUEST_FILTER)
     public String filter(@RequestParam String text, Map<String, Object> model) {
         Iterable<Note> findNotes = noteRepository.findByNameIgnoreCaseContainingOrTextIgnoreCaseContaining(text,text);
-        model.put("notes",findNotes);
-        model.put("foundBy",text);
-        return "main";
+        model.put(KEY_NOTES,findNotes);
+        model.put(KEY_FOUNDBY,text);
+        return TEMPLATE_MAIN;
     }
 
-    @GetMapping("edit")
+    @GetMapping(REQUEST_EDIT)
     public String edit(@RequestParam Integer id, Map<String, Object> model) {
         Optional<Note> checkNote = noteRepository.findById(id);
         if (checkNote.isPresent()) {
             Note note = checkNote.get();
-            model.put("id", note.getId());
-            model.put("name", note.getName());
-            model.put("text", note.getText());
-            return "edit";
-        } else return "main"; //TODO: error
+            model.put(KEY_ID, note.getId());
+            model.put(KEY_NAME, note.getName());
+            model.put(KEY_TEXT, note.getText());
+            return TEMPLATE_EDIT;
+        } else {
+            return errorMessage(ERROR_MESSAGE_INVALID_EDIT_REQUEST_NOTE_NOT_FOUND, model);
+        }
     }
 
     @PostMapping("update")
@@ -64,8 +80,13 @@ public class MainController {
             noteRepository.save(noteToUpdate);
             return main(model);
         } else {
-           return "main"; //TODO: error
+           return errorMessage(ERROR_MESSAGE_INVALID_UPDATE_REQUEST_NOTE_NOT_FOUND, model);
         }
+    }
+
+    private String errorMessage(String message, Map<String, Object> model) {
+        model.put(KEY_ERROR_MESSAGE, message);
+        return TEMPLATE_ERROR;
     }
 
 }

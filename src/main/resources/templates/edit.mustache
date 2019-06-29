@@ -1,11 +1,11 @@
 <html>
 <body>
-    <div><a href="/"><- back</a></div>
+    <div><a href="/"><- back to Notes list</a></div>
     <div></div>
     <div>Edit Note</div>
     <div>
         <form method="post" action="update">
-            <div><input type="hidden" name="id" value="{{id}}"</div>
+            <div><input type="hidden" name="id" value="{{id}}"/></div>
             <div><input type="text" name="updatedName" placeholder="Enter name" value="{{name}}"/></div>
             <div><textarea name="updatedNote" placeholder="Enter note"/>{{text}}</textarea></div>
             <div><button type="submit">Save</button></div>
