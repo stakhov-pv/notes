@@ -1,6 +1,6 @@
 <html>
 <body>
-    <div>Create Note</div>
+<div><b>Create Note</b></div>
     <div>
         <form method="post" action="add">
             <div><input type="text" name="name" placeholder="Enter name"/></div>
@@ -8,22 +8,20 @@
             <div><button type="submit">Add</button></div>
         </form>
     </div>
-    <div>Notes list</div>
+<div><b>Notes list</b></div>
     <form method="post" action="filter">
         <input type="text" name="text" placeholder="Text to find" {{#foundBy}}value="{{foundBy}}"{{/foundBy}}/>
         <button type="submit">Find</button>
     </form>
     {{#foundBy}}
     <div>
-        Found by '{{foundBy}}'
+        <b>Found by '{{foundBy}}'.</b> <a href="/">Reset filter</a>
     </div>
     {{/foundBy}}
     {{#notes}}
-    <div>
-        <a href="edit?id={{id}}">
-            <b>{{id}}</b>
-            <span>{{nameOrText}}</span>
-        </a>
+    <div><b>id:{{id}}</b>
+        <span>{{nameOrText}}</span>
+        <a href="edit?id={{id}}">Edit</a> <a href="delete?id={{id}}">Delete</a>
     </div>
     {{/notes}}
 </body>
