@@ -16,6 +16,8 @@ public class MainController {
     private static final String REQUEST_ADD = "add";
     private static final String REQUEST_FILTER = "filter";
     private static final String REQUEST_EDIT = "edit";
+    private static final String REQUEST_UPDATE = "update";
+    private static final String REQUEST_DELETE = "delete";
 
     private static final String KEY_NOTES = "notes";
     private static final String KEY_FOUNDBY = "foundBy";
@@ -30,6 +32,7 @@ public class MainController {
 
     private static final String ERROR_MESSAGE_INVALID_UPDATE_REQUEST_NOTE_NOT_FOUND = "Invalid update request: Note not found.";
     private static final String ERROR_MESSAGE_INVALID_EDIT_REQUEST_NOTE_NOT_FOUND = "Invalid edit request: Note not found.";
+    private static final String ERROR_MESSAGE_INVALID_DELETE_REQUEST_NOTE_NOT_FOUND = "Invalid delete request: Note not found.";
 
     @Autowired
     private NoteRepository noteRepository;
@@ -70,7 +73,7 @@ public class MainController {
         }
     }
 
-    @PostMapping("update")
+    @PostMapping(REQUEST_UPDATE)
     public String update(@RequestParam Integer id, String updatedName, String updatedNote, Map<String, Object> model) {
         Optional<Note> checkNote = noteRepository.findById(id);
         if (checkNote.isPresent()) {
@@ -81,6 +84,17 @@ public class MainController {
             return main(model);
         } else {
            return errorMessage(ERROR_MESSAGE_INVALID_UPDATE_REQUEST_NOTE_NOT_FOUND, model);
+        }
+    }
+
+    @GetMapping(REQUEST_DELETE)
+    public String delete(@RequestParam Integer id, Map<String, Object> model) {
+        Optional<Note> checkNote = noteRepository.findById(id);
+        if (checkNote.isPresent()) {
+            noteRepository.deleteById(id);
+            return main(model);
+        } else {
+            return errorMessage(ERROR_MESSAGE_INVALID_DELETE_REQUEST_NOTE_NOT_FOUND, model);
         }
     }
 
