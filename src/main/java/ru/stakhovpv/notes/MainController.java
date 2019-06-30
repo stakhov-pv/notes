@@ -22,8 +22,8 @@ public class MainController {
     private static final String KEY_NOTES = "notes";
     private static final String KEY_FOUNDBY = "foundBy";
     private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_TEXT = "text";
+    private static final String KEY_HEADER = "header";
+    private static final String KEY_NOTE = "note";
     private static final String KEY_ERROR_MESSAGE = "message";
 
     private static final String TEMPLATE_MAIN = "main";
@@ -45,15 +45,15 @@ public class MainController {
     }
 
     @PostMapping(REQUEST_ADD)
-    public String add(@RequestParam String name, @RequestParam String note, Map<String, Object> model) {
-        Note newNote = new Note(name,note);
+    public String add(@RequestParam String header, @RequestParam String note, Map<String, Object> model) {
+        Note newNote = new Note(header,note);
         noteRepository.save(newNote);
         return main(model);
     }
 
     @PostMapping(REQUEST_FILTER)
     public String filter(@RequestParam String text, Map<String, Object> model) {
-        Iterable<Note> findNotes = noteRepository.findByNameIgnoreCaseContainingOrTextIgnoreCaseContaining(text,text);
+        Iterable<Note> findNotes = noteRepository.findByHeaderIgnoreCaseContainingOrNoteIgnoreCaseContaining(text,text);
         model.put(KEY_NOTES,findNotes);
         model.put(KEY_FOUNDBY,text);
         return TEMPLATE_MAIN;
@@ -65,8 +65,8 @@ public class MainController {
         if (checkNote.isPresent()) {
             Note note = checkNote.get();
             model.put(KEY_ID, note.getId());
-            model.put(KEY_NAME, note.getName());
-            model.put(KEY_TEXT, note.getText());
+            model.put(KEY_HEADER, note.getHeader());
+            model.put(KEY_NOTE, note.getNote());
             return TEMPLATE_EDIT;
         } else {
             return errorMessage(ERROR_MESSAGE_INVALID_EDIT_REQUEST_NOTE_NOT_FOUND, model);
@@ -74,12 +74,12 @@ public class MainController {
     }
 
     @PostMapping(REQUEST_UPDATE)
-    public String update(@RequestParam Integer id, String updatedName, String updatedNote, Map<String, Object> model) {
+    public String update(@RequestParam Integer id, String updatedHeader, String updatedNote, Map<String, Object> model) {
         Optional<Note> checkNote = noteRepository.findById(id);
         if (checkNote.isPresent()) {
             Note noteToUpdate = checkNote.get();
-            noteToUpdate.setName(updatedName);
-            noteToUpdate.setText(updatedNote);
+            noteToUpdate.setHeader(updatedHeader);
+            noteToUpdate.setNote(updatedNote);
             noteRepository.save(noteToUpdate);
             return main(model);
         } else {

@@ -12,15 +12,15 @@ public class Note {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    private String name;
-    private String text;
+    private String header;
+    private String note;
 
     public Note() {
     }
 
-    public Note(String name, String text) {
-        this.name = name;
-        this.text = text;
+    public Note(String header, String note) {
+        this.header = header;
+        this.note = note;
     }
 
     public Integer getId() {
@@ -31,25 +31,25 @@ public class Note {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getHeader() {
+        return header;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHeader(String header) {
+        this.header = header;
     }
 
-    public String getText() {
-        return text;
+    public String getNote() {
+        return note;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public String getNameOrText() {
-        if (name!=null && name.trim().length()>0) return name;
-        else if (text!=null && text.trim().length()>0) return text;
+    public String getHeaderOrNote() {
+        if (header !=null && header.trim().length()>0) return header;
+        else if (note !=null && note.trim().length()>0) return note;
         return EMPTY_NOTE_NAME;
     }
 }

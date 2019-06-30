@@ -44,7 +44,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void addNote1_expectNameInListTest() throws Exception {
         this.mockMvc.perform(post("/add")
-                .param("name", "note1name")
+                .param("header", "note1name")
                 .param("note", "note1text"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))
@@ -54,7 +54,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void addNote2WithEmptyName_expectTextInListTest() throws Exception {
         this.mockMvc.perform(post("/add")
-                .param("name","")
+                .param("header","")
                 .param("note","note2text"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))
@@ -64,7 +64,7 @@ public class MainControllerIntegrationTest {
     @Test
     public void addNote3WithEmptyNameAndText_expectEmptyNoteInListTest() throws Exception {
         this.mockMvc.perform(post("/add")
-                .param("name","")
+                .param("header","")
                 .param("note",""))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))
@@ -80,17 +80,17 @@ public class MainControllerIntegrationTest {
     @Test
     public void findNote_expectNameInListTest() throws Exception {
         //add some notes
-        //note4 with search criteria in name
+        //note4 with search criteria in header
         this.mockMvc.perform(post("/add")
-                .param("name", "note4filterName")
+                .param("header", "note4filterName")
                 .param("note", "note4Text"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))
                 .andExpect(content().string(containsString("note4filterName")));
 
-        //note5 with search criteria in text
+        //note5 with search criteria in note
         this.mockMvc.perform(post("/add")
-                .param("name", "note5name")
+                .param("header", "note5name")
                 .param("note", "note5filterText"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))
@@ -98,7 +98,7 @@ public class MainControllerIntegrationTest {
 
         //note6 with no search criteria
         this.mockMvc.perform(post("/add")
-                .param("name", "note6name")
+                .param("header", "note6name")
                 .param("note", "note6text"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html; charset=utf-8"))

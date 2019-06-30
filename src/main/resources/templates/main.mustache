@@ -3,7 +3,7 @@
 <div><b>Create Note</b></div>
     <div>
         <form method="post" action="add">
-            <div><input type="text" name="name" placeholder="Enter name"/></div>
+            <div><input type="text" name="header" placeholder="Enter header"/></div>
             <div><textarea name="note" placeholder="Enter note"></textarea></div>
             <div><button type="submit">Add</button></div>
         </form>
@@ -20,7 +20,7 @@
     {{/foundBy}}
     {{#notes}}
     <div><b>id:{{id}}</b>
-        <span>{{nameOrText}}</span>
+        <span>{{headerOrNote}}</span>
         <a href="edit?id={{id}}">Edit</a> <a href="delete?id={{id}}">Delete</a>
     </div>
     {{/notes}}

@@ -6,5 +6,5 @@ import ru.stakhovpv.notes.domain.Note;
 import java.util.List;
 
 public interface NoteRepository extends CrudRepository<Note,Integer> {
-    List<Note> findByNameIgnoreCaseContainingOrTextIgnoreCaseContaining(String name, String text);
+    List<Note> findByHeaderIgnoreCaseContainingOrNoteIgnoreCaseContaining(String header, String note);
 }
